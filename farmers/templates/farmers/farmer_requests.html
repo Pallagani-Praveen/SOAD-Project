@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load static %}
+{% load tags %}
+
+{% block title %}
+    Your Requests
+{% endblock title %}
+
+
+{% block css %}
+    .cm-div{
+        width:174vh;
+        height:95vh;
+    }
+{% endblock css %}
+
+
+{% block csslink %}
+    <link href='{% static "css/farmer_index.css" %} ' rel='stylesheet'>
+{% endblock csslink %}
+    
+    
+
+{% block body %}
+   <div class="cm-div">
+       <div class="d-flex justify-content-between ">
+            <h3 class="text-info ml-3 mt-3 ml-5">All Of Your Requests Status</h3>
+            <div style="align-self:center;" class="border border-dark rounded bg-light p-1 mr-3">
+                <i class="fa fa-circle text-success m-1" style="align-self:center ;">&nbsp;Accepted</i>
+                <i class="fa fa-circle text-warning m-1" style="align-self:center ;">&nbsp;On Hold / Waiting</i>
+                <i class="fa fa-circle text-danger m-1" style="align-self:center ;">&nbsp;Rejected</i>
+            </div>
+       </div>
+    <hr class="m-0"/>
+    <hr class="my-1"/>
+    
+    <div class="req-container d-flex flex-wrap ml-5">
+    {% if reqs_details %}
+        {% for req in reqs_details %}
+            <div class="req-card m-2 rounded">
+                <div class="req-header d-flex m-3 justify-content-between">
+                    <div class="d-flex">
+                        <img  src="{% static 'farmify/imgs/dealer.jpg'%}" alt="" style="width: 50px; height:50px;" class="border border-dark rounded-circle">
+                        <h5 class="ml-4 text-primary" style="align-self:center;">{{req.user|cap_the_first}}</h5>
+                    </div>
+                    <div class="d-flex ">
+                        
+                        {% if req.status == 'waiting' %}
+                        <i class="fa fa-circle text-warning" style="align-self:center ;"></i>
+                        {% elif req.status == 'accepted' %}
+                        <i class="fa fa-circle text-success" style="align-self:center ;"></i>
+                        {% elif req.status == 'rejected' %}
+                        <i class="fa fa-circle text-danger" style="align-self:center ;"></i>
+                        {% endif %}
+                            
+                        
+                        <i class="fa fa-angle-right text-dark ml-3" style="align-self:center;font-size:30px;font-weight:bold;cursor:pointer;" onclick="location.href='/dealers/deal_details?deal_id={{req.id}}'"></i>
+                    </div>
+                </div>
+                <hr>
+                <div class="req-body">
+                    <ul class="list-group mx-3 mb-2">
+                        <li class="list-group-item">Crop : {{req.cropname}}</li>
+                        <li class="list-group-item">Size Range : {{req.start_size}} - {{req.end_size}} {{req.metric}}</li>
+                        <li class="list-group-item">Contact : {{req.phone}}</li>
+                      </ul>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        ==>  <h5> No Deal Requests Found :( </h5>
+    {% endif %}
+        
+    </div>
+    
+   </div>
+{% endblock body %}
+

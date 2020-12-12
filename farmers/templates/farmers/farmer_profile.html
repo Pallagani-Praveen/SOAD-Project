@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load tags %}
+
+
+{% block title %}
+    Farmer Profile Page
+{% endblock title %}
+
+{% block css %}
+  .cm-div{
+      width:174vh;
+      height:90vh;
+  }
+{% endblock css %}
+
+{% block body %}
+<div class="cm-div">
+    <div class="jumbotron m-2">
+        <div class="d-flex justify-content-between">
+            <span>
+                <h1 class="display-4">#{{user.email|cap_the_first|strip_user}}</h1>
+                <p class="lead">The farmer of the farmify with available crops that ara listed below</p>
+                <hr class="my-4">
+                <p>He is one of the trusted farmers of the farmify</p>
+            </span>
+            <span>
+                <img src="/media/{{user.avatar}}" alt="Img Not Found" style="width: 300px;;">
+            </span>
+        </div>
+        <p class="lead">
+          <a class="btn btn-danger btn-lg" href="/auth/logout" role="button">Logout</a>
+        </p>
+        <ul>
+            <li><a href="/farmers/">All Of Your Crops</a></li>
+            <li><a href="/farmers/requests">All Deal Requests</a></li>
+        </ul>
+      </div>
+ </div>
+{% endblock body %}
+    
+    

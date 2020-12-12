@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}
+    CropRequestStatus
+{% endblock title %}
+
+{% block css %}
+  .cm-div{
+      width:178vh;
+      height:90vh;
+  }
+{% endblock css %}
+
+{% block body %}
+{% csrf_token %}
+<div class="cm-div">
+    <div class="content">
+        <h5 class="mt-3"> <center>Request Status</center></h5>
+        <hr/>
+        <center>
+            <ul class="list-group col-md-6 ml-4">
+                <li class="list-group-item active">Dealer : {{crop_req.dealer}}</li>
+                {% if crop_req.status == 'waiting' %}
+                  
+                  <li class="list-group-item d-flex justify-content-around">
+                    <span id="msg">You not yet responded ? :(</span>
+                    <span id="btns">
+                    <input type="button" value="Accept" class="btn btn-success p-1" onclick="makeAccept('{{crop_req.id}}')"/>
+                    <input type="button" value="Reject" class="btn btn-danger p-1" onclick="makeReject('{{crop_req.id}}')"/>
+                    </span>
+                  </li>
+                {% elif crop_req.status == 'accepted' %}
+                <li class="list-group-item d-flex justify-content-around">
+                  
+                    <span>You Have Accepted The Request :) </span>
+                    <span>
+                    <input type="button" value="Accepted" class="btn btn-success p-1 disabled"/> <i class="fa fa-check-circle text-success"></i>
+                    </span>
+                 
+                </li>
+                {% elif  crop_req.status == 'rejected' %}
+                <li class="list-group-item d-flex justify-content-around">
+                  <span>You Have Rejected The Request :( </span>
+                  <span>
+                  <input type="button" value="Rejected" class="btn btn-danger p-1 disabled"/> <i class="fa fa-times text-danger"></i>
+                  </span>
+                </li>
+                {% endif %}
+            </ul>
+        </center>
+        <h4 class="mt-4 ml-4">Deals Of The Dealer</h4>
+        {% for dealer_deal in all_dealer_deals %}
+          <div class="alert alert-warning alert-dismissible fade show col-md-8 m-1 ml-4 d-flex justify-content-between" role="alert">
+            <span>
+            <strong> <a href="/dealers/deal_details?deal_id={{dealer_deal.id}}">Deal {{forloop.counter}} : </strong> {{dealer_deal.cropname}} Deal </a>
+            </span>
+            <span>
+                from : #{{dealer_deal.user}}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </span>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock body %}
+
+{% block jslink %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{% endblock jslink %}
+
+
+{% block js %}
+  function makeAccept(crop_req_id){
+    console.log(crop_req_id);
+     $.post("http://127.0.0.1:8000/farmers/response", { 'csrfmiddlewaretoken' : $("input[name='csrfmiddlewaretoken']").val(),'dealer':'{{crop_req.dealer}}','farmer':'{{crop_req.farmer}}' ,'crop_id':'{{crop_req.crop_id}}','status':'accepted'})
+      .done(function(data){
+          if(data.length==24){
+            var msg = 'You Have Accepted The Request :)';
+            var btns = `<input type="button" value="Accepted" class="btn btn-success p-1 disabled"/> <i class="fa fa-check-circle text-success"></i>`;
+            $('#msg').html(msg);
+            $('#btns').html(btns);
+          }
+      }); 
+  }
+
+  function makeReject(dealid){
+    console.log(dealid);
+    $.post("http://127.0.0.1:8000/farmers/response", { 'csrfmiddlewaretoken' : $("input[name='csrfmiddlewaretoken']").val(), 'dealer':'{{crop_req.dealer}}','farmer':'{{crop_req.farmer}}' ,'crop_id':'{{crop_req.crop_id}}','status':'rejected'})
+      .done(function(data){
+          if(data.length==24){
+            var msg = 'You Have rejected The Request :)';
+            var btns = `<input type="button" value="Rejected" class="btn btn-danger p-1 disabled"/> <i class="fa fa-times text-danger"></i>`;
+            $('#msg').html(msg);
+            $('#btns').html(btns);
+          }
+      });
+  }
+{% endblock js %}
