@@ -150,6 +150,15 @@ def makeResponse(request):
     else:
         return redirect('/')
 
+@login_required(login_url='/auth/login')
+def delete(request):
+    if 'crop_id' not in request.GET:
+        return redirect('/')
+    crop_id = request.GET['crop_id']
+    res = client.Farmify.farmers_crops.remove({"_id":ObjectId(crop_id)})
+    return redirect('/farmers/')
+
+
 
 
 

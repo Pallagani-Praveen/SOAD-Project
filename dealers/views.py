@@ -169,6 +169,16 @@ def dealer_requests(request):
     context = {'req_crops':req_crops,'all_crops':all_crops}
     return render(request,'dealers/dealer_requests.html',context=context)
 
+@login_required(login_url='/auth/login')
+def delete(request):
+    if 'deal_id' not in request.GET:
+        return redirect('/')
+    deal_id = request.GET['deal_id']
+    print(deal_id)
+    res = client.Farmify.dealers_deals.remove({"_id":ObjectId(deal_id)})
+    print(res)
+    return redirect('/dealers/')
+
 # all ajax requests
 def makeRequestResponse(request):
     if request.method == 'POST':

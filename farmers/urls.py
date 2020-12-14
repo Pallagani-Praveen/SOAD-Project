@@ -1,3 +1,4 @@
+from dealers.views import delete
 from django.urls import path
 from . import views as v
 from django.conf.urls.static import static
@@ -12,6 +13,7 @@ urlpatterns = [
     path('request_dealer_deal',v.request_dealer_deal,name="request_dealer_deal"),
     path('request',v.makeRequestResponse,name="makerequestresponse"),
     path('profile',v.farmer_profile,name="farmerprofile"),
+    path('delete',v.delete,name="delete"),
 
     # ajax urls
     path('response',v.makeResponse,name="makeresponse")

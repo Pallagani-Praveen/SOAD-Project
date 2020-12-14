@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %}
+    Weather Report
+{% endblock title %}
+
+{% block css %}
+  .cm-div{
+      width:174vh;
+      height:90vh;
+  }
+{% endblock css %}
+
+{% block body %}
+    <div class="cm-div">
+        <h3 class="mt-3 ml-3 text-info">Today's Weather Report</h3>
+        <hr>
+        <div class="d-flex justify-content-around">
+            <ul class="list-group col-md-6 mt-3 ml-3">
+                <li class="list-group-item">Climate : {{weather}}</li>
+                <li class="list-group-item">Temperature : {{temp}} Deg</li>
+                <li class="list-group-item">Temp (min,max) : ( {{temp_min}} , {{temp_max}} ) Deg</li>
+                <li class="list-group-item">Pressure : {{pressure}} pascals</li>
+                <li class="list-group-item">Humidity : {{humidity}}  g.kg-1</li>
+                <li class="list-group-item">Sea Level : {{sea_level}}</li>
+                <li class="list-group-item">Ground Level : {{grnd_level}}</li>
+                <li class="list-group-item">Wind Speed : {{wind_speed}} km/hr</li>
+                <li class="list-group-item">Wind Direction : {{wind_deg}} deg</li>
+            </ul>
+            <img src="{% static 'farmify/imgs/weather.jpg' %}" style="width: 400px;" class="rounded">
+        </div>
+    </div>
+{% endblock body %}
+    
+    

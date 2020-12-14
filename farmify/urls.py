@@ -30,4 +30,7 @@ urlpatterns = [
     
     # this app urls
     path('',v.landing_view,name="landing_page"),
+    path('contact',v.contact,name="contact"),
+    path('search',v.search,name="search"),
+    path('weather',v.weather,name="weather")
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

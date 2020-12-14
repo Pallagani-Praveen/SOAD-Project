@@ -25,7 +25,7 @@
         <div class="col-md-8">
           <div class="d-flex justify-content-between">
             <h4 class="text-info">{{cropname|upper}} Insights</h4>
-            {% if is_req_crop %}
+            {% if is_req_crop and request.user.role == 'dealer' %}
               
               {% if is_req_crop.status == 'waiting' %}
                 <button class="btn btn-primary disabled">Requested <i class="fa fa-check-circle"></i></button>
@@ -35,7 +35,7 @@
                 <button class="btn btn-danger disabled">Rejected <i class="fa fa-frown-o"></i></button>
               {% endif %}
                 
-            {% else %}
+            {% elif request.user.role == 'dealer' %}
               <button id="req_btn" class="btn btn-danger"onclick="makeRequest()">Request <i class="fa fa-arrow-right ml-1"></i></button>
             {% endif %}
             

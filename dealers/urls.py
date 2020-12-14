@@ -9,6 +9,7 @@ urlpatterns = [
     path('deal_details',v.deal_details,name="deal_details"),
     path('deal_status',v.deal_status,name="deal_status"),
     path('requests',v.dealer_requests,name="dealer_requests"),
+    path('delete',v.delete,name="delete"),
 
     # ajax urls
     path('request',v.makeRequestResponse,name="requestresponse"),
